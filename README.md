@@ -41,7 +41,7 @@ Wavelength runs as a 3-agent collaborative system rather than a single long prom
 - **Interviewer Agent** — manages the live turn loop. Retrieves target curriculum objectives via RAG (TF-IDF + cosine similarity), detects conceptual gaps in answers, generates targeted follow-ups, and adjusts difficulty as the interview progresses.
 - **Evaluator Agent** — triggered at wrap-up. Synthesizes the full transcript, cross-checks confidence/correctness alignment, and produces the structured feedback payload.
 
-Full design rationale, diagrams, and scoping trade-offs are in **[`SUBMISSION.md`](SUBMISSION.md)**. The AI-assisted development process and human-directed corrections are logged in **[`AI_TRANSCRIPT_LOG.md`](AI_TRANSCRIPT_LOG.md)**.
+Full design rationale, diagrams, and scoping trade-offs are in [SUBMISSION.md](https://github.com/ameenthaj05/wavelength/blob/main/SUBMISSION.md). The AI-assisted development process and human-directed corrections are logged in [AI_TRANSCRIPT_LOG.md](https://github.com/ameenthaj05/wavelength/blob/main/AI_TRANSCRIPT_LOG.md).
 
 ---
 
