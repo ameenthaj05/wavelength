@@ -2011,38 +2011,45 @@
     // Speech Recognition                                            //
     // ------------------------------------------------------------- //
     function initSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        document.getElementById('btn-voice-toggle').style.display = 'none';
-        return;
+      try {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+          const btn = document.getElementById('btn-voice-toggle');
+          if (btn) btn.style.display = 'none';
+          return;
+        }
+        
+        recognitionInstance = new SpeechRecognition();
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = false;
+        recognitionInstance.lang = 'en-US';
+        
+        recognitionInstance.onstart = () => {
+          isListening = true;
+          voiceToggleButton.classList.add('listening');
+        };
+        
+        recognitionInstance.onend = () => {
+          isListening = false;
+          voiceToggleButton.classList.remove('listening');
+        };
+        
+        recognitionInstance.onresult = (event) => {
+          const text = event.results[0][0].transcript;
+          chatInputField.value = text;
+          submitAnswerMessage();
+        };
+        
+        recognitionInstance.onerror = (event) => {
+          console.error("Speech recognition error", event.error);
+          isListening = false;
+          voiceToggleButton.classList.remove('listening');
+        };
+      } catch (err) {
+        console.error("Speech recognition initialization failed:", err);
+        const btn = document.getElementById('btn-voice-toggle');
+        if (btn) btn.style.display = 'none';
       }
-      
-      recognitionInstance = new SpeechRecognition();
-      recognitionInstance.continuous = false;
-      recognitionInstance.interimResults = false;
-      recognitionInstance.lang = 'en-US';
-      
-      recognitionInstance.onstart = () => {
-        isListening = true;
-        voiceToggleButton.classList.add('listening');
-      };
-      
-      recognitionInstance.onend = () => {
-        isListening = false;
-        voiceToggleButton.classList.remove('listening');
-      };
-      
-      recognitionInstance.onresult = (event) => {
-        const text = event.results[0][0].transcript;
-        chatInputField.value = text;
-        submitAnswerMessage();
-      };
-      
-      recognitionInstance.onerror = (event) => {
-        console.error("Speech recognition error", event.error);
-        isListening = false;
-        voiceToggleButton.classList.remove('listening');
-      };
     }
 
     function toggleVoiceMode() {
